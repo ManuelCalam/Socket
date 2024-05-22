@@ -18,8 +18,8 @@ import java.net.Socket;
  * @author yahir
  */
 public class Cliente {
-    public static final int PUERTO = 8080;
-    public static final String HOST = "localhost";
+    public static final int PUERTO = 1000;
+    public static final String HOST = "25.39.100.34";
 
     public static void main(String[] args) throws IOException {
 

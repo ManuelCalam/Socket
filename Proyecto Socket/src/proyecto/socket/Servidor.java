@@ -21,7 +21,7 @@ import java.net.Socket;
 public class Servidor {
     
     // Elegir un Puerto del rango 1-1024:
-    public static final int PUERTO = 8080;
+    public static final int PUERTO = 1000;
 
     public static void main (String [] args) throws IOException {
         ServerSocket S = new ServerSocket (PUERTO) ;

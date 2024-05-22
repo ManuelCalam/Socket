@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ClienteUnParlante {
     
     static final int MAX_HILOS = 10;
-    public static final String HOST = "localhost";
+    public static final String HOST = "25.39.100.34";
 
     public static void main(String[] args) throws IOException, InterruptedException{
 

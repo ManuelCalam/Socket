@@ -29,7 +29,7 @@ public class HiloClienteParlante extends Thread {
     @Override
     public void run() {
         try {
-            sk = new Socket ("127.0.0.1", 8080);
+            sk = new Socket ("25.39.100.34", 1000);
             dos = new DataOutputStream(sk.getOutputStream());
             dis = new DataInputStream(sk.getInputStream());
             System. out.println (id + " envia saludo");

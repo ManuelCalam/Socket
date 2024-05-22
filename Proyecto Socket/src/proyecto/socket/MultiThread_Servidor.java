@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class MultiThread_Servidor {
     
-    static final int PUERTO = 8080;
+    static final int PUERTO = 1000;
 
     public static void main(String[] args) throws IOException {
 
