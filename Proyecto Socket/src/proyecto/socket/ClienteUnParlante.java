@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author yahir
  */
-public class ClienteMultiParlante {
+public class ClienteUnParlante {
     
     static final int MAX_HILOS = 10;
     public static final String HOST = "localhost";

@@ -5,11 +5,11 @@
  */
 package proyecto.socket;
 
-import com.sun.istack.internal.logging.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -31,7 +31,7 @@ public class MultiThread_Servidor {
                 Socket socket;
                 socket = ss.accept();
                 System. out.println ("Nueva conexion entrante: "+ socket);
-                ((ServidorMultiParlante) new ServidorMultiParlante (socket, idSession) ) .start ();
+                ((ServidorMultiParlante) new ServidorMultiParlante (socket, idSession) ).run();
                 idSession++;
             }
 
