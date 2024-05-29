@@ -67,7 +67,7 @@ public class HiloClienteParlante extends Thread {
             respuesta = dis.readUTF();
             System. out.println ("Cliente " + id + " - Servidor devuelve saludo: " + respuesta);
             
-            
+            System.out.println("s");
             scanner.nextLine(); 
             //notify();
             
