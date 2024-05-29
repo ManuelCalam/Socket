@@ -96,32 +96,35 @@ public class ServidorMultiParlante {
             Logger. getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
         }    
         
-        for(int i = 0; i<2; i++){
-            switch((int)(ops[i])){
-                case 1:
-                    resultado = num1+num2;
-                    break;
-                case 2:
-                    resultado = num1-num2;
-                    break;
-                case 3:
-                    resultado = num1*num2;
-                    break;
-                case 4:
-                    resultado = num1/num2;
-                    break;
-                case 5:
-                    resultado = num1%num2;
-                    break;
-                default:
-                    System.out.println("Operación inválida");
-                    
+        if(idSession == 1){
+            
+            for(int i = 0; i<2; i++){
+                switch((int)(ops[i])){
+                    case 1:
+                        resultado = num1+num2;
+                        break;
+                    case 2:
+                        resultado = num1-num2;
+                        break;
+                    case 3:
+                        resultado = num1*num2;
+                        break;
+                    case 4:
+                        resultado = num1/num2;
+                        break;
+                    case 5:
+                        resultado = num1%num2;
+                        break;
+                    default:
+                        System.out.println("Operación inválida");
+
+                }
+                System.out.println("El resultado de la op es: "+ resultado);
+
+
             }
-            System.out.println("El resultado de la op #"+(idSession+1)+" es: "+ resultado);
-            
-            
+
         }
-        
         
         //desconnectar();
     }

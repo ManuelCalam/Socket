@@ -49,7 +49,7 @@ public class HiloClienteParlante extends Thread {
 
                 scanner.nextLine();
 
-                System.out.print("Cliente " + id + " - Ingresa la operación (+, -, *, /, %): ");
+                System.out.print("Cliente " + id + " - Escoge el # de operación:\t1. +\t2. -\t3. *\t4. /\t5. %\n");
                 String operacion = scanner.next();
                 
                 dos.writeUTF(operacion);
