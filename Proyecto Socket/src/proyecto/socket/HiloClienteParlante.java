@@ -40,13 +40,7 @@ public class HiloClienteParlante extends Thread {
         }
         
         Scanner scanner = new Scanner(System.in);
-        while(!client0finished && id == 1){
-            try {
-                wait();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(HiloClienteParlante.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        
 
      
         String respuesta="";
@@ -67,7 +61,6 @@ public class HiloClienteParlante extends Thread {
             respuesta = dis.readUTF();
             System. out.println ("Cliente " + id + " - Servidor devuelve saludo: " + respuesta);
             
-            System.out.println("s");
             scanner.nextLine(); 
             //notify();
             
