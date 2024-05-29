@@ -45,7 +45,7 @@ public class HiloClienteParlante extends Thread {
 
                 dos.writeUTF(String.valueOf(numero1));
                 respuesta = dis.readUTF();
-                System.out.println("Cliente " + id + " - Servidor devuelve saludo: " + respuesta);
+                System.out.println("Cliente " + id + " - Servidor devuelve saludo. " + respuesta);
 
                 scanner.nextLine();
 
@@ -54,7 +54,7 @@ public class HiloClienteParlante extends Thread {
                 
                 dos.writeUTF(operacion);
                 respuesta = dis.readUTF();
-                System.out.println("Cliente " + id + " - Servidor devuelve saludo: " + respuesta);
+                System.out.println("Cliente " + id + " - Servidor devuelve saludo. " + respuesta);
 
                 dis.close();
                 dos.close();

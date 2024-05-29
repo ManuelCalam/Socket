@@ -18,14 +18,17 @@ import java.util.logging.Logger;
  */
 public class ServidorMultiParlante {
 
+    public static double num1 = 0, num2 = 0;
+    public static double [] ops = new double[2];
+    public double resultado = 0;
     private Socket socket;
     private DataOutputStream dos;
     private DataInputStream dis;
-    private int idSessio;
+    private int idSession;
 
     public ServidorMultiParlante (Socket socket, int id) {
         this.socket = socket;
-        this.idSessio = id;
+        this.idSession = id;
         try {
             dos = new DataOutputStream(socket.getOutputStream());
             dis = new DataInputStream(socket.getInputStream());
@@ -43,20 +46,22 @@ public class ServidorMultiParlante {
     
     public void run()  {
         String accion = "";
-        int vuelta = 0;
-        double num1 = 0;
-        double resultado = 0;
         try {
-                System.out.println("vuelta: " + vuelta);
                 accion = dis.readUTF();
 
-                num1 = Double.parseDouble(accion);
+                if(idSession == 0){
+                    num1 = Double.parseDouble(accion);
+                    dos.writeUTF(String.valueOf("El servidor dice, num1 del cliente: " + num1));
+                }
+                else if(idSession == 1){
+                    num2 = Double.parseDouble(accion);
+                    dos.writeUTF(String.valueOf("El servidor dice, num2 del cliente: " + num2));
+                }
 
                 //if (accion. equals ("hola")) {
                     //System. out.println ("El cliente con idSesion "+this.idSessio+" saluda");
                     //dos.writeUTF("adios");
                 //}
-                dos.writeUTF(String.valueOf("El servidor dice, num1: " + num1));
 
                 try {
                     wait();
@@ -64,9 +69,16 @@ public class ServidorMultiParlante {
                 }
 
                 accion = dis.readUTF();
-                num1 = Double.parseDouble(accion);
+                
+                if(idSession == 0){
+                    ops[0] = Double.parseDouble(accion);
+                    dos.writeUTF(String.valueOf("El servidor dice, op1 del cliente: " + ops[idSession]));
+                }
+                else if(idSession == 1){
+                    ops[1] = Double.parseDouble(accion);
+                    dos.writeUTF(String.valueOf("El servidor dice, op2 del cliente: " + ops[idSession]));
+                }
 
-                dos.writeUTF(String.valueOf("El servidor dice, operacion: " + num1));
 
 
                 
@@ -78,13 +90,39 @@ public class ServidorMultiParlante {
                     dos.write(num1);
                 }*/
            
-                vuelta++;
             
             
         } catch (IOException ex) {
             Logger. getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
         }    
-        System.out.println("se terminó");
+        
+        for(int i = 0; i<2; i++){
+            switch((int)(ops[i])){
+                case 1:
+                    resultado = num1+num2;
+                    break;
+                case 2:
+                    resultado = num1-num2;
+                    break;
+                case 3:
+                    resultado = num1*num2;
+                    break;
+                case 4:
+                    resultado = num1/num2;
+                    break;
+                case 5:
+                    resultado = num1%num2;
+                    break;
+                default:
+                    System.out.println("Operación inválida");
+                    
+            }
+            System.out.println("El resultado de la op #"+(idSession+1)+" es: "+ resultado);
+            
+            
+        }
+        
+        
         //desconnectar();
     }
     
