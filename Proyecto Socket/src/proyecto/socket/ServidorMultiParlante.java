@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author yahir
+ * @author 
  */
 public class ServidorMultiParlante {
 
@@ -41,18 +41,52 @@ public class ServidorMultiParlante {
         }
     }
     
-    public void run() {
+    public void run()  {
         String accion = "";
+        int vuelta = 0;
+        double num1 = 0;
+        double resultado = 0;
         try {
-            accion = dis.readUTF();
-            if (accion. equals ("hola")) {
-            System. out.println ("El cliente con idSesion "+this.idSessio+" saluda");
-            dos.writeUTF("adios");
-            }
+                System.out.println("vuelta: " + vuelta);
+                accion = dis.readUTF();
+
+                num1 = Double.parseDouble(accion);
+
+                //if (accion. equals ("hola")) {
+                    //System. out.println ("El cliente con idSesion "+this.idSessio+" saluda");
+                    //dos.writeUTF("adios");
+                //}
+                dos.writeUTF(String.valueOf("El servidor dice, num1: " + num1));
+
+                try {
+                    wait();
+                } catch (Exception e) {
+                }
+
+                accion = dis.readUTF();
+                num1 = Double.parseDouble(accion);
+
+                dos.writeUTF(String.valueOf("El servidor dice, operacion: " + num1));
+
+
+                
+
+
+
+                /*if(num1 != 0){
+                    System.out.println("Cliente " + this.idSessio + "escogió " + num1);
+                    dos.write(num1);
+                }*/
+           
+                vuelta++;
+            
+            
         } catch (IOException ex) {
             Logger. getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
         }    
-        desconnectar ();
+        System.out.println("se terminó");
+        //desconnectar();
     }
     
 }
+
