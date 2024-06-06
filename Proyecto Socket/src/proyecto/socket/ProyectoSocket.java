@@ -7,7 +7,7 @@ package proyecto.socket;
 
 /**
  *
- * @author yahir
+ * @author
  */
 public class ProyectoSocket {
 

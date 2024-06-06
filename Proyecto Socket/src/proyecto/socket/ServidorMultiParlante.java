@@ -1,133 +1,86 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package proyecto.socket;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author 
- */
-public class ServidorMultiParlante {
-
-    public static double num1 = 0, num2 = 0;
-    public static double [] ops = new double[2];
-    public double resultado = 0;
-    private Socket socket;
+public class ServidorMultiParlante implements Runnable {
+    private static final double[] numbers = new double[2];
+    private static final String[] operations = new String[2];
+    private static final AtomicInteger count = new AtomicInteger(0);
+    private final Socket socket;
+    private final int idSession;
     private DataOutputStream dos;
     private DataInputStream dis;
-    private int idSession;
 
-    public ServidorMultiParlante (Socket socket, int id) {
+    public ServidorMultiParlante(Socket socket, int id) {
         this.socket = socket;
         this.idSession = id;
         try {
             dos = new DataOutputStream(socket.getOutputStream());
             dis = new DataInputStream(socket.getInputStream());
         } catch (IOException ex) {
-            Logger. getLogger (ServidorMultiParlante.class.getName()).log(Level. SEVERE, null, ex) ;
+            Logger.getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void desconnectar() {
+
+    public void disconnect() {
         try {
-            socket.close ();
+            socket.close();
         } catch (IOException ex) {
             Logger.getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void run()  {
-        String accion = "";
+
+    @Override
+    public void run() {
         try {
-                accion = dis.readUTF();
+            double number = Double.parseDouble(dis.readUTF());
+            String operation = dis.readUTF();
 
-                if(idSession == 0){
-                    num1 = Double.parseDouble(accion);
-                    dos.writeUTF(String.valueOf("El servidor dice, num1 del cliente: " + num1));
+            synchronized (ServidorMultiParlante.class) {
+                numbers[idSession] = number;
+                operations[idSession] = operation;
+                count.incrementAndGet();
+                if (count.get() < 2) {
+                    ServidorMultiParlante.class.wait();
+                } else {
+                    ServidorMultiParlante.class.notifyAll();
                 }
-                else if(idSession == 1){
-                    num2 = Double.parseDouble(accion);
-                    dos.writeUTF(String.valueOf("El servidor dice, num2 del cliente: " + num2));
-                }
-
-                //if (accion. equals ("hola")) {
-                    //System. out.println ("El cliente con idSesion "+this.idSessio+" saluda");
-                    //dos.writeUTF("adios");
-                //}
-
-                try {
-                    wait();
-                } catch (Exception e) {
-                }
-
-                accion = dis.readUTF();
-                
-                if(idSession == 0){
-                    ops[0] = Double.parseDouble(accion);
-                    dos.writeUTF(String.valueOf("El servidor dice, op1 del cliente: " + ops[idSession]));
-                }
-                else if(idSession == 1){
-                    ops[1] = Double.parseDouble(accion);
-                    dos.writeUTF(String.valueOf("El servidor dice, op2 del cliente: " + ops[idSession]));
-                }
-
-
-
-                
-
-
-
-                /*if(num1 != 0){
-                    System.out.println("Cliente " + this.idSessio + "escogió " + num1);
-                    dos.write(num1);
-                }*/
-           
-            
-            
-        } catch (IOException ex) {
-            Logger. getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
-        }    
-        
-        if(idSession == 1){
-            
-            for(int i = 0; i<2; i++){
-                switch((int)(ops[i])){
-                    case 1:
-                        resultado = num1+num2;
-                        break;
-                    case 2:
-                        resultado = num1-num2;
-                        break;
-                    case 3:
-                        resultado = num1*num2;
-                        break;
-                    case 4:
-                        resultado = num1/num2;
-                        break;
-                    case 5:
-                        resultado = num1%num2;
-                        break;
-                    default:
-                        System.out.println("Operación inválida");
-
-                }
-                System.out.println("El resultado de la op es: "+ resultado);
-
-
             }
 
+            synchronized (ServidorMultiParlante.class) {
+                double result = calculateResult(idSession);
+                dos.writeUTF(String.valueOf(result));
+                disconnect();
+            }
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(ServidorMultiParlante.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //desconnectar();
     }
-    
-}
 
+    private double calculateResult(int session) {
+        double num1 = numbers[0];
+        double num2 = numbers[1];
+        String operation = operations[session];
+
+        switch (operation) {
+            case "+":
+                return num1 + num2;
+            case "-":
+                return num1 - num2;
+            case "*":
+                return num1 * num2;
+            case "/":
+                return num1 / num2;
+            case "%":
+                return num1 % num2;
+            default:
+                throw new IllegalArgumentException("Invalid operation: " + operation);
+        }
+    }
+}

@@ -15,7 +15,7 @@ import java.net.Socket;
 
 /**
  *
- * @author yahir
+ * @author 
  */
 public class Cliente {
     public static final int PUERTO = 1000;

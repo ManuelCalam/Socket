@@ -20,7 +20,7 @@ public class ClienteUnParlante {
     public static void main(String[] args) throws IOException, InterruptedException{
 
         ArrayList<Thread> clients = new ArrayList<Thread>();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             clients.add (new HiloClienteParlante(i));
         }
         for (Thread thread : clients) {

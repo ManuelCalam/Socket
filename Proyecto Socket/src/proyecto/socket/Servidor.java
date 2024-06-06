@@ -16,7 +16,7 @@ import java.net.Socket;
 
 /**
  *
- * @author yahir
+ * @author 
  */
 public class Servidor {
     
